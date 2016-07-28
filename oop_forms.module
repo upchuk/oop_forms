@@ -13,6 +13,9 @@ function oop_forms_ctools_plugin_type() {
   );
 }
 
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
 function oop_forms_ctools_plugin_directory($module, $plugin) {
   if ($module == 'oop_forms' && in_array($plugin, array_keys(oop_forms_ctools_plugin_type())) ) {
     return 'plugins/' . $plugin;
