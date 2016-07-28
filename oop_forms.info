@@ -1,0 +1,7 @@
+name = OOP Forms
+description = Allows OOP Form definition in D7
+core = 7.x
+
+files[] = OOPFormInterface.inc
+files[] = OOPFormBase.inc
+files[] = OOPFormFactory.inc

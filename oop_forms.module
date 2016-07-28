@@ -1,0 +1,61 @@
+<?php
+
+/**
+ * Implements hook_ctools_plugin_type().
+ */
+function oop_forms_ctools_plugin_type() {
+  return array(
+    'oop_form' => array(
+      'label' => 'OOP Form',
+      'use hooks' => FALSE,
+      'process' => 'oop_forms_process_plugin'
+    )
+  );
+}
+
+function oop_forms_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'oop_forms' && in_array($plugin, array_keys(oop_forms_ctools_plugin_type())) ) {
+    return 'plugins/' . $plugin;
+  }
+}
+
+/**
+ * Implements hook_forms().
+ */
+function oop_forms_forms($form_id, $args) {
+  $forms = array();
+
+  $factory = OOPFormFactory::getInstance();
+  $ids = $factory->getFormIds();
+  foreach ($ids as $id) {
+    $forms[$id] = array(
+      'callback' => array($factory, 'buildForm'),
+    );
+  }
+
+  return $forms;
+}
+
+/**
+ * Validation handler for all the OOP forms.
+ *
+ * @param $form
+ * @param $form_state
+ */
+function oop_forms_validate(&$form, &$form_state) {
+  $factory = OOPFormFactory::getInstance();
+  $form_object = $factory->getForm($form_state['build_info']['form_id']);
+  $form_object->validate($form, $form_state);
+}
+
+/**
+ * Submit handler for all the OOP forms.
+ *
+ * @param $form
+ * @param $form_state
+ */
+function oop_forms_submit(&$form, &$form_state) {
+  $factory = OOPFormFactory::getInstance();
+  $form_object = $factory->getForm($form_state['build_info']['form_id']);
+  $form_object->submit($form, $form_state);
+}
